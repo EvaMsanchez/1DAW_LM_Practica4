@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="discos">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- grupo -->
+                <xs:element name="grupo" minOccurs="1" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- nombre -->
+                            <xs:element name="nombre">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <!-- miembro -->
+                            <xs:element name="miembro" minOccurs="1" maxOccurs="unbounded">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>   
+                            <!-- nacionalidad -->
+                            <xs:element name="nacionalidad" minOccurs="0" maxOccurs="1"> <!-- Elemento opcional -->
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <!-- Opcionalmente: calle y localidad / web y email, no ambas a la vez -->
+                            <xs:choice minOccurs="0" maxOccurs="1"> <!--rectificado-->
+                                <xs:sequence>
+                                    <!-- calle -->
+                                    <xs:element name="calle">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:maxLength value="50" />
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:element>
+                                    <!-- localidad -->
+                                    <xs:element name="localidad">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:maxLength value="50" />
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:element>
+                                </xs:sequence>
+                                <xs:sequence>
+                                    <!-- web -->
+                                    <xs:element name="web">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:pattern value="www.ponprecioamimusica.org/[a-z]{3,}" /> <!-- Deben pertenecer el dominio: ponprecioamimusica.org ?-->
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:element>
+                                    <!-- email -->
+                                    <xs:element name="email">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:pattern value=" [a-z]{3,}@ponprecioamimusica.org" /> <!-- Deben pertenecer el dominio: ponprecioamimusica.org -->
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:choice>  
+                        </xs:sequence>
+                        
+                        <!-- Atributo: nom -->
+                        <xs:attribute name="nom" type="xs:string" use="required"/>
+                         
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- disco -->
+                <xs:element name="disco" minOccurs="1" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- intérprete -->
+                            <xs:element name="interprete">
+                                <xs:complexType>
+                                    <xs:attribute name="nom" type="xs:string" use="required"/> <!-- Atributo: nom -->
+                                </xs:complexType>
+                            </xs:element>
+                            <!-- titulo -->
+                            <xs:element name="titulo">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:maxLength value="50" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <!-- discográfica -->
+                            <xs:element name="discografica" minOccurs="0" maxOccurs="1" default="CBS"> <!-- En caso de no aparecer un elemento de la lista, CBS: valor predeterminado ?? -->
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string"> <!-- Solo puede tener los valores de la lista -->
+                                        <xs:enumeration value="Sony" />
+                                        <xs:enumeration value="CBS" />
+                                        <xs:enumeration value="SIRE" />
+                                        <xs:enumeration value="OTRAS" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <!-- año -->
+                            <xs:element name="anio">
+                                <xs:complexType>
+                                    <xs:simpleContent>          
+                                        <xs:extension base="anio">  
+                                            <xs:attribute name="mes" use="optional"> <!-- Atributo: mes, opcional y solo puede tener los valores de la lista. No tiene valor por defecto -->
+                                                <xs:simpleType>
+                                                    <xs:restriction base="xs:string">
+                                                        <xs:enumeration value="enero" />
+                                                        <xs:enumeration value="febrero" />
+                                                        <xs:enumeration value="marzo" />
+                                                        <xs:enumeration value="abril" />
+                                                        <xs:enumeration value="mayo" />
+                                                        <xs:enumeration value="junio" />
+                                                        <xs:enumeration value="julio" />
+                                                        <xs:enumeration value="agosto" />
+                                                        <xs:enumeration value="septiembre" />
+                                                        <xs:enumeration value="octubre" />
+                                                        <xs:enumeration value="noviembre" />
+                                                        <xs:enumeration value="diciembre" />
+                                                    </xs:restriction>
+                                                </xs:simpleType>
+                                            </xs:attribute>
+                                        </xs:extension>
+                                    </xs:simpleContent> 
+                                </xs:complexType>
+                            </xs:element>
+                            <!-- stock -->
+                            <xs:element name="stock">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:integer"> <!-- Número entero, mayor o igual: 0, máximo: 200 -->
+                                        <xs:minInclusive value="0" />
+                                        <xs:maxInclusive value="200" /> 
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                        </xs:sequence>
+                        
+                        <!-- Atributo: precio, 2 decimales y obligatorio -->
+                        <xs:attribute name="precio" use="required">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:decimal">
+                                    <xs:fractionDigits value="2" />
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+        <!-- año -->
+        <xs:simpleType  name="anio">
+        <xs:restriction base="xs:integer">
+            <xs:pattern value="[0-9]{4}" /> <!-- Obligatoriamente 4 dígitos -->
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
